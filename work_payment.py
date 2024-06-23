@@ -19,7 +19,7 @@ def sum_work(person, year, month_from, month_to, assignment):
     sum = 0
     year_str = f'FY{year}'
 
-    with open('data/person.json', 'r') as f:
+    with open('data/people.json', 'r') as f:
         person_dict = json.load(f)
 
     if not person in person_dict:
