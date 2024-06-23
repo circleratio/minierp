@@ -15,9 +15,12 @@ def index_to_fiscal_year_str(idx):
     fy_month_str = ['4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2', '3']
     return(fy_month_str[idx])
 
-def sum_work(person_dict, person, year, month_from, month_to, assignment):
+def sum_work(person, year, month_from, month_to, assignment):
     sum = 0
     year_str = f'FY{year}'
+
+    with open('data/person.json', 'r') as f:
+        person_dict = json.load(f)
 
     if not person in person_dict:
         print(f'No user found: {person}')
@@ -43,9 +46,6 @@ def sum_work(person_dict, person, year, month_from, month_to, assignment):
     print(f'No data found: {year}')
     exit(1)
 
-with open('data/person.json', 'r') as f:
-    person_dict = json.load(f)
-
 if __name__ == '__main__':
-    s = sum_work(person_dict, 'tf', 2024, 4, 3, '事務局')
+    s = sum_work('tf', 2024, 4, 3, '事務局')
     print(s)
