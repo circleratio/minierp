@@ -46,5 +46,6 @@ def sum_work(person_dict, person, year, month_from, month_to, assignment):
 with open('data/person.json', 'r') as f:
     person_dict = json.load(f)
 
-s = sum_work(person_dict, 'fujiwara', 2024, 4, 3, '事務局')
-print(s)
+if __name__ == '__main__':
+    s = sum_work(person_dict, 'tf', 2024, 4, 3, '事務局')
+    print(s)
