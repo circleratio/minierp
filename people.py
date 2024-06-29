@@ -1,23 +1,31 @@
 #!/usr/bin/python3
-import json
 import sys
+import jsondb
 
-def list():
-    with open('data/people.json', 'r') as f:
-        person_dict = json.load(f)
-        for p in person_dict:
-            print(person_dict[p])
+def init():
+    db = jsondb.JsonDB('data/people_and_organization.db')
+    db.create_table('people')
+    return(db)
 
-def find(id):
-    with open('data/people.json', 'r') as f:
-        person_dict = json.load(f)
-        if id in person_dict:
-            print(person_dict[id])
+def list(db):
+    for row in db.get('people'):
+        print(row)
 
-def usage_exit():
-    print('Usage people.py [list|find] arg')
-    exit(1)
-    
+def has(db, name):
+    print(name)
+    where = {'name': name}
+    for row in db.get('people', where):
+        return True
+    return False
+
+def add(db, data):
+    newid = data['name']
+    if has(db, newid):
+        print('already exists')
+    else:
+        db.set('people', data)
+        db.commit()
+
 if __name__ == '__main__':
     arg_len = len(sys.argv) 
     if  arg_len < 2:

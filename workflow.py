@@ -4,7 +4,16 @@ import jsondb
 import json
 import logging
 
-def wf_update_flow(data, args):
+def init():
+    db = jsondb.JsonDB('data/workflow.db')
+    db.create_table('workflow')
+    return(db)
+
+def list(db):
+    for row in db.get('workflow'):
+        print(row)
+        
+def update_flow(data, args):
     # no action for inactive workflow
     if data['status'] == 'rejected' or data['status'] == 'closed':
         return(data)
@@ -44,21 +53,17 @@ def wf_update_flow(data, args):
     data['flow'] = flow 
     return(data)
 
-def wf_list(db):
-    for row in db.get('workflow'):
-        print(row)
-        
-def wf_add(db, data):
+def add(db, data):
     db.set('workflow', data)
     db.commit()
         
-def wf_step_forward(db, tbl_id, dict_args):
+def step_forward(db, tbl_id, dict_args):
     for row in db.getByID('workflow', tbl_id):
-        row = wf_update_flow(row, dict_args)
+        row = update_flow(row, dict_args)
         db.set('workflow', dataid=tbl_id, data=row)
         db.commit()
         
-def wf_reject(db, tbl_id):
+def reject(db, tbl_id, dict_args):
     for row in db.getByID('workflow', tbl_id):
         row['status'] = 'rejected'
         db.set('workflow', dataid=tbl_id, data=row)
@@ -67,28 +72,7 @@ def wf_reject(db, tbl_id):
         # todo: report back to stakeholders.
 
 def main():
-    logging.basicConfig(filename="logs/workflow.log")
-                        
-    with jsondb.JsonDB('data/workflow.db') as db:
-        db.create_table('workflow')
-        db.commit()
-
-        #print(wf_update_flow('{"pos": 0, "flow": [{}, {}]}'))
-        #exit(1)
-
-        flow = {'pos': 0, 'flow': [
-            {'action': 'approval', 'person_in_charge': 'tf' },
-            {'action': 'close'}
-        ]} 
-        data = {'name': 'abc', 'owner': 'abcd', 'flow': flow, 'type': 'payment', "status": "run"}
-        wf_add(db, data)
-        
-        print('-' * 10)
-        wf_list(db)
-        print('-' * 10)
-        wf_step_forward(db, 1, {'actor': 'tf', 'message': 'I did it.'})
-        #print('-' * 10)
-        #wf_reject(db, 5)
-        
+    db = init()
+    
 if __name__ == '__main__':
     sys.exit(main())

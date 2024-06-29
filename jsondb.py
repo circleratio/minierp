@@ -5,6 +5,7 @@ class DB:
     def __init__(self, filePath=None):
         if filePath != None:
             self.filePath = filePath
+        self.open(self.filePath)
 
     def open(self, filePath=None):
         if filePath != None:
@@ -32,13 +33,12 @@ class DB:
     def __enter__(self):
         self.open()
         return self
-
+    
     def __exit__(self, exctype, excvalue, traceback):
         self.close()
 
 
 class JsonDB(DB):
-
     def queryString(self, sql, tablename, where, condition, column):
         if len(where) > 0:
             wstr = []
