@@ -28,7 +28,7 @@ def calc(filename):
     
         print(project_dict)
         for m in project_dict['member']:
-            personnel_costs += work_payment.sum_work(m, year, month_start, month_end, name)
+            personnel_costs += work_payment.sum_work(m, 'plan', year, month_start, month_end, name)
 
             for m in project_dict['expense']:
                 expense_type = project_dict['expense'][m]['type'] 
@@ -76,7 +76,7 @@ def calc(filename):
     print(f'IV.一般管理費: {administrative_expenses}')
     
 def main():
-    calc('project/sample.json')
+    calc(sys.argv[1])
     
 if __name__ == '__main__':
     sys.exit(main())

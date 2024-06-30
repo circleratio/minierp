@@ -16,9 +16,13 @@ def index_to_fiscal_year_str(idx):
     fy_month_str = ['4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2', '3']
     return(fy_month_str[idx])
 
-def sum_work(person, year, month_from, month_to, assignment):
+def sum_work(person, calc_type, year, month_from, month_to, assignment):
     sum = 0
     year_str = f'FY{year}'
+
+    if calc_type != 'plan' and calc_type != 'result':
+        print('calc_type must be plan or result. Aborted.')
+        exit(1)
 
     db_people = people.People()
 
@@ -26,7 +30,7 @@ def sum_work(person, year, month_from, month_to, assignment):
         print(f'No user found: {person}')
         exit(1)
     
-    with open(f'data/work-{year_str}.json', 'r') as f:
+    with open(f'{calc_type}/work-{year_str}.json', 'r') as f:
         work_dict = json.load(f)
         #print(work_dict)
 
@@ -47,7 +51,7 @@ def sum_work(person, year, month_from, month_to, assignment):
     exit(1)
 
 def main():
-    s = sum_work('mf', 2024, 4, 3, '事務局')
+    s = sum_work('mf', 'plan', 2024, 4, 3, '事務局')
     print(s)
     
 if __name__ == '__main__':
