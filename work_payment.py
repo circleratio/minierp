@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import datetime
 import json
+import people
 
 def fiscal_year_to_index(fy_month):
     if fy_month >= 4 and fy_month <= 12:
@@ -19,10 +20,9 @@ def sum_work(person, year, month_from, month_to, assignment):
     sum = 0
     year_str = f'FY{year}'
 
-    with open('data/people.json', 'r') as f:
-        person_dict = json.load(f)
+    db_people = people.People()
 
-    if not person in person_dict:
+    if not db_people.has(person):
         print(f'No user found: {person}')
         exit(1)
     
@@ -46,6 +46,9 @@ def sum_work(person, year, month_from, month_to, assignment):
     print(f'No data found: {year}')
     exit(1)
 
-if __name__ == '__main__':
-    s = sum_work('tf', 2024, 4, 3, '事務局')
+def main():
+    s = sum_work('mf', 2024, 4, 3, '事務局')
     print(s)
+    
+if __name__ == '__main__':
+    sys.exit(main())
