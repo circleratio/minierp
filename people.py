@@ -4,7 +4,7 @@ import jsondb
 
 class People:
     def __init__(self):
-        self.db = jsondb.JsonDB('data/people_and_organization.db')
+        self.db = jsondb.JsonDB('base_data/people_and_organization.db')
         self.db.create_table('people')
 
     def list(self):
