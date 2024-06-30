@@ -8,7 +8,7 @@ import json
 def main():
     logging.basicConfig(filename="logs/merp.log")
 
-    db_people = people.init()  
+    db_people = people.People()  
     db_workflow = workflow.Workflow()
 
     arg = sys.argv
@@ -30,9 +30,9 @@ def main():
         
 def cmd_people(db, cmd, arg):
     if cmd == 'list':
-        people.list(db)
+        db.list()
     elif cmd == 'add':
-        people.add(db, arg)
+        db.add(arg)
     else:
         print(f'wrong command: {cmd}')
 

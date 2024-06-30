@@ -2,42 +2,32 @@
 import sys
 import jsondb
 
-def init():
-    db = jsondb.JsonDB('data/people_and_organization.db')
-    db.create_table('people')
-    return(db)
+class People:
+    def __init__(self):
+        self.db = jsondb.JsonDB('data/people_and_organization.db')
+        self.db.create_table('people')
 
-def list(db):
-    for row in db.get('people'):
-        print(row)
+    def list(self):
+        for row in self.db.get('people'):
+            print(row)
 
-def has(db, name):
-    print(name)
-    where = {'name': name}
-    for row in db.get('people', where):
-        return True
-    return False
+    def has(self, name):
+        print(name)
+        where = {'name': name}
+        for row in self.db.get('people', where):
+            return True
+        return False
 
-def add(db, data):
-    newid = data['name']
-    if has(db, newid):
-        print('already exists')
-    else:
-        db.set('people', data)
-        db.commit()
+    def add(self, data):
+        newid = data['name']
+        if self.has(newid):
+            print('already exists')
+        else:
+            self.db.set('people', data)
+            self.db.commit()
 
+def main():
+    db_people = People()
+    
 if __name__ == '__main__':
-    arg_len = len(sys.argv) 
-    if  arg_len < 2:
-        usage_exit()
-        
-    cmd = sys.argv[1] 
-    if cmd == 'list':
-        list()
-    elif cmd == 'find':
-        if arg_len < 3:
-            usage_exit()
-        for user in sys.argv[2:]:
-            find(user)
-    else:
-        usage_exit()
+    sys.exit(main())
