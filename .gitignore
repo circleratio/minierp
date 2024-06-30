@@ -1,4 +1,5 @@
-data
-project
+base_data
+plan
+result
 logs
 __pycache__
