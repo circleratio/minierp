@@ -9,7 +9,7 @@ def main():
     logging.basicConfig(filename="logs/merp.log")
 
     db_people = people.init()  
-    db_workflow = workflow.init()
+    db_workflow = workflow.Workflow()
 
     arg = sys.argv
     l = len(arg)
@@ -38,17 +38,17 @@ def cmd_people(db, cmd, arg):
 
 def cmd_workflow(db, cmd, arg):
     if cmd == 'list':
-        workflow.list(db)
+        db.list()
     elif cmd == 'add':
-        workflow.add(db, arg)
+        db.add(arg)
     elif cmd == 'step_forward':
         wf_id = arg['id']
         wf_arg = arg['arg']
-        workflow.step_forward(db, wf_id, wf_arg)
+        db.step_forward(wf_id, wf_arg)
     elif cmd == 'reject':
         wf_id = arg['id']
         wf_arg = arg['arg']
-        workflow.reject(db, wf_id, wf_arg)
+        db.reject( wf_id, wf_arg)
         pass
     else:
         print(f'wrong command: {cmd}')
