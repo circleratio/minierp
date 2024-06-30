@@ -1,8 +1,8 @@
 all: merp.py
-	@echo do nothing
+	merp.py
 
 test: test.sh
 	bash test.sh
 
 clean:
-	rm -f data/people_and_organization.db  data/workflow.db
+	(cd base_data; rm -f people_and_organization.db workflow.db approval.db)
