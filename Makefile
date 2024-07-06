@@ -1,13 +1,14 @@
 all:
 	@echo do nothing.
 
-test:
-	bash test.sh
+test: test-db test-meti
+
+test-db:
+	bash tests/test.sh
 
 test-meti:
-	python3 ./meti-subcontract.py '{"name": "プロジェクト1", "fiscal_year": 2024}' 
+	bash tests/test-meti.sh
 
 clean:
-	(cd base_data; rm -f people_and_organization.db)
-	(cd operation_data; rm -f workflow.db approval.db)
-	(cd logs; rm -f merp.log)
+	(cd base_data; rm -f base.db)
+	(cd operation_data; rm -f merp.log)
