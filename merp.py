@@ -15,7 +15,7 @@ def main():
     arg = sys.argv
     if len(arg) != 4:
         print('Usage: merp type cmd {args in json}')
-        exit(1)
+        return(1)
 
     arg_json = json.loads(arg[3])
         
@@ -27,16 +27,18 @@ def main():
         cmd_wage(db_wage, arg[2], arg_json)
     else:
         print('Usage: merp type cmd {args in json format}')
-        
-    exit(1)
-        
+        return(1)
+    return(0)
+
 def cmd_people(db, cmd, arg):
-    if cmd == 'list':
-        db.list()
-    elif cmd == 'add':
-        db.add(arg)
+    if cmd == 'get':
+        print(db.get(arg['name']))
+    elif cmd == 'set':
+        db.set(arg)
+    elif cmd == 'dump':
+        db.dump()
     else:
-        print(f'wrong command: {cmd}')
+        print(f'People: wrong command: {cmd}')
 
 def cmd_wage(db, cmd, arg):
     if cmd == 'get':
@@ -46,7 +48,7 @@ def cmd_wage(db, cmd, arg):
     elif cmd == 'dump':
         db.dump()
     else:
-        print(f'wrong command: {cmd}')
+        print(f'Wage: wrong command: {cmd}')
         
 def cmd_workflow(db, cmd, arg):
     if cmd == 'list':
@@ -63,7 +65,7 @@ def cmd_workflow(db, cmd, arg):
         db.reject( wf_id, wf_arg)
         pass
     else:
-        print(f'wrong command: {cmd}')
+        print(f'Workflow: wrong command: {cmd}')
     
 if __name__ == '__main__':
     sys.exit(main())

@@ -14,16 +14,18 @@ class People(Singleton):
         self.db.create_table('people')
         self.db.create_table('wage')
 
-    def list(self):
+    def dump(self):
         for row in self.db.get('people'):
             print(row)
 
-    def add(self, data):
-        newid = data['name']
-        if self.has(newid):
-            print(f'People.add: the user already exists: {newid}')
-        else:
+    def set(self, data):
+        item = self.get(data['name'])
+        if item == None:
             self.db.set('people', data)
+            self.db.commit()
+        else:
+            print('People.add: the user already exists: {} (id={})'.format(data['name'], item['id']))
+            self.db.set('people', data, dataid=item['id'])
             self.db.commit()
             
     def has(self, name):
@@ -35,8 +37,7 @@ class People(Singleton):
     def get(self, name):
         where = {'name': name}
         for row in self.db.get('people', where):
-            print(row)
-            return(yield row)
+            return(row)
         return(None)
     
 def main():

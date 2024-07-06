@@ -3,8 +3,10 @@
 python3 ./merp.py people add '{"name": "mf", "attr": {"family name": "藤原", "first name": "道長", "title": "代表理事", "mail": "michf@abc.or.jp"}}'
 python3 ./merp.py people add '{"name": "kf", "attr": {"family name": "藤原", "first name": "伊周", "title": "事務局長", "mail": "kfuji@abc.or.jp"}}'
 python3 ./merp.py people add '{"name": "minamoto", "attr": {"family name": "源", "first name": "良清", "title": "事務局", "mail": "minamoto@abc.or.jp"}}'
+python3 ./merp.py people get '{"name": "mf"}'
+python3 ./merp.py people dump '{}'
 
-python3 ./merp.py wage set '{"name": "mf", "fiscal_year": 2024, "wages": [100, 100, 100, 100, 100, 100]}'
+python3 ./merp.py wage set '{"name": "mf", "fiscal_year": 2024, "wages": [100, 100, 100, 100, 100, 100, 100, 100,100, 100, 100, 100]}'
 python3 ./merp.py wage get '{"name": "mf", "fiscal_year": 2024}'
 python3 ./merp.py wage dump '{}'
 
