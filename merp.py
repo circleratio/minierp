@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import people
+import people, wage
 import workflow
 import sys
 import logging
@@ -9,13 +9,12 @@ def main():
     logging.basicConfig(filename="logs/merp.log")
 
     db_people = people.People()  
+    db_wage = wage.Wage()  
     db_workflow = workflow.Workflow()
 
     arg = sys.argv
-    l = len(arg)
-    
-    if l != 4:
-        print('usage: merp type cmd {args in json}')
+    if len(arg) != 4:
+        print('Usage: merp type cmd {args in json}')
         exit(1)
 
     arg_json = json.loads(arg[3])
@@ -24,9 +23,12 @@ def main():
         cmd_people(db_people, arg[2], arg_json)
     elif arg[1] == 'workflow':
         cmd_workflow(db_workflow, arg[2], arg_json)
+    elif arg[1] == 'wage':
+        cmd_wage(db_wage, arg[2], arg_json)
     else:
-        print('usage: merp type cmd {args in json format}')
-        exit(1)
+        print('Usage: merp type cmd {args in json format}')
+        
+    exit(1)
         
 def cmd_people(db, cmd, arg):
     if cmd == 'list':
@@ -36,6 +38,16 @@ def cmd_people(db, cmd, arg):
     else:
         print(f'wrong command: {cmd}')
 
+def cmd_wage(db, cmd, arg):
+    if cmd == 'get':
+        db.get(arg)
+    elif cmd == 'set':
+        db.set(arg)
+    elif cmd == 'dump':
+        db.dump()
+    else:
+        print(f'wrong command: {cmd}')
+        
 def cmd_workflow(db, cmd, arg):
     if cmd == 'list':
         db.list()
