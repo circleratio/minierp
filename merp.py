@@ -20,7 +20,8 @@ def main():
             'wage': cmd_wage,
             'assignment': cmd_assignment,
             'expense': cmd_expense,
-            'workflow': cmd_workflow
+            'workflow': cmd_workflow,
+            'common': cmd_common
             }
     
     if arg[1] in func:
@@ -31,6 +32,17 @@ def main():
     
     return(0)
 
+def cmd_common(cmd, arg):
+    db = common.Common()  
+    if cmd == 'get':
+        print(db.get(arg['company_name']))
+    elif cmd == 'set':
+        db.set(arg)
+    elif cmd == 'dump':
+        db.dump()
+    else:
+        print(f'People: wrong command: {cmd}')
+        
 def cmd_people(cmd, arg):
     db = people.People()  
     if cmd == 'get':

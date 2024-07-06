@@ -2,6 +2,7 @@
 import work_payment
 import json
 import sys
+import common
 import people, assignment, wage, expense
 
 def calc_personnel_costs(project_dict):
@@ -35,7 +36,6 @@ def calc_expense(project_dict):
              'type': 'II.事業費'}
     l = expense_db.get(where)
     for i in l:
-        print(i)
         if i['subtype'] in total:
             total[i['subtype']] += sum(i['plan'])
         else:
@@ -53,13 +53,13 @@ def calc_outsource_costs(project_dict):
              'type': 'III.再委託・外注費'}
     l = expense_db.get(where)
     for i in l:
-        print(i)
         total += sum(i['plan'])
         details.append(i)
 
     return(total, details)
 
 def calc_all(project_dict):
+    common_db = common.Common()
     result = {}
     total_expense = 0
     
@@ -69,17 +69,20 @@ def calc_all(project_dict):
     result['outsource_costs'], result['outsource_costs_details'], = calc_outsource_costs(project_dict)
     for i in result['expense']:
         total_expense += result['expense'][i]
-    print(total_expense)
 
     result['administrative_expenses'] = (result['personnel_costs'] + total_expense) * project_dict['一般管理費率']
     result['subtotal'] = result['personnel_costs'] + total_expense + result['outsource_costs'] +  result['administrative_expenses']
     
-    result['consumption_tax'] = result['subtotal'] * 0.1
+    result['consumption_tax'] = result['subtotal'] * common_db.get('consumption_tax')
     result['total'] = result['subtotal'] + result['consumption_tax'] 
     return(result)
 
 def render(js):
+    common_db = common.Common()
+
+    print('法人名: {}'.format(common_db.get('company_name')))
     print('プロジェクト名: {}'.format(js['name']))
+    
     print('I.人件費: {}'.format(js['personnel_costs']))
     print('II.事業費:')
     for i in js['expense']:

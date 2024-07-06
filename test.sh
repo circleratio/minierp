@@ -1,4 +1,5 @@
 #!/usr/bin/bash
+python3 ./merp.py common set '{"company_name": "会社名", "consumption_tax": 0.1}'
 
 python3 ./merp.py people set '{"name": "mf", "attr": {"family name": "藤原", "first name": "道長", "title": "代表理事", "mail": "michf@abc.or.jp"}}'
 python3 ./merp.py people set '{"name": "kf", "attr": {"family name": "藤原", "first name": "伊周", "title": "事務局長", "mail": "kfuji@abc.or.jp"}}'
