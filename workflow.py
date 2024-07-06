@@ -5,7 +5,7 @@ import logging
 
 class Workflow:
     def __init__(self):
-        self.db = jsondb.JsonDB('base_data/workflow.db')
+        self.db = jsondb.JsonDB('operation_data/workflow.db')
         self.db.create_table('workflow')
 
     def list(self):
