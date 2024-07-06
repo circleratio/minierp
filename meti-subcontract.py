@@ -5,7 +5,6 @@ import sys
 import people, assignment, wage
 
 def calc(filename):
-    personnel_costs = 0
     expense = 0
     outsource = 0
     administrative_expenses = 0
@@ -62,7 +61,6 @@ def calc(filename):
 
                 administrative_expenses = (personnel_costs + expense) * project_dict['一般管理費率']
         
-    print(f'I.人件費: {personnel_costs}')
     print(f'II.事業費: {expense}')
     print(f'    旅費: {expense_travel}')
     print(f'    会議費: {expense_meeting}')
@@ -82,23 +80,43 @@ def calc_personnel_costs(project_dict):
     wage_db = wage.Wage()
 
     total = 0
+    details = []
     
     l = assignment_db.getByProject(project_dict['name'], project_dict['fiscal_year'])
     for p in l:
-        rates = p['assignment']
-        
         where = {'name': p['name'], 'fiscal_year': p['fiscal_year']}
-        prices = wage_db.get(where)['wages'] 
-        total += sum([x * y for x, y in zip(rates, prices)])
-    return(total)
+        unit_prices = wage_db.get(where)['wages']
+        rates = p['assignment']
+        prices = [x * y for x, y in zip(rates, unit_prices)]
+        
+        total += sum(prices)
+        
+        item = {'name': p['name'], 'price': prices, 'rate': rates, 'unit_price': unit_prices}
+        details.append(item)
+        
+    return(total, details)
+
+def calc_all(project_dict):
+    result = {}
+    result['name'] = project_dict['name'] 
+    result['personnel_costs'], result['personnel_costs_details'], = calc_personnel_costs(project_dict)
+    return(result)
+
+def render(js):
+    
+    print('プロジェクト名: {}'.format(js['name']))
+    print('I.人件費: {}'.format(js['personnel_costs']))
+
+    
+    print('\n========== 人件費内訳 ==========')
+    for i in js['personnel_costs_details']:
+        print(i)
     
 def main():
     with open(sys.argv[1], 'r') as f:
         project_dict = json.load(f)
-        #print(project_dict)
-
-        pc = calc_personnel_costs(project_dict)
-        print(pc)
+        res = calc_all(project_dict)
+        render(res)
     
 if __name__ == '__main__':
     sys.exit(main())

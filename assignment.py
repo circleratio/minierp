@@ -10,7 +10,7 @@ class Assignment:
     def set(self, data):
         where = {'name': data['name'],
                  'fiscal_year': data['fiscal_year'],
-                 'assignment': data['assignment']}
+                 'project': data['project']}
         item = self.get(where)
         if item == None:
             print('Assignment.set: New data')
@@ -24,7 +24,7 @@ class Assignment:
     def get(self, args):
         where = {'name': args['name'],
                  'fiscal_year': args['fiscal_year'],
-                 'assignment': args['assignment']}
+                 'project': args['project']}
         
         for row in self.db.get('assignment', where):
             return(row)
