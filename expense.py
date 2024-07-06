@@ -14,22 +14,19 @@ class Expense:
         where = {'name': data['name'],
                  'fiscal_year': data['fiscal_year'],
                  'project': data['project']}
-        item = self.get(where)
-        if item == None:
-            print('Expense.set: New data')
-            self.db.set('expense', data)
-        else:
-            print('Expense.set: Update: {}'.format(item['id']))
+        for item in self.get(where): 
+            print('Expense.set: Update: id={}'.format(item['id']))
             self.db.set('expense', data, dataid=item['id'])
+            self.db.commit()
+            return(True)
+        print('Expense.set: New data')
+        self.db.set('expense', data)
         self.db.commit()
+        return(True)
 
     def get(self, args):
-        where = {'name': args['name'],
-                 'fiscal_year': args['fiscal_year'],
-                 'project': args['project']}
-        
-        for row in self.db.get('expense', where):
-            return(row)
+        for row in self.db.get('expense', args):
+            yield(row)
         return(None)
 
 def main():

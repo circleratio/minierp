@@ -18,6 +18,7 @@ python3 ./merp.py assignment dump '{}'
 python3 ./merp.py assignment getbyperson '{"name": "mf", "fiscal_year": 2024}'
 
 python3 ./merp.py expense set '{"name": "会議費", "fiscal_year": 2024, "project": "プロジェクト1", "type": "II.事業費", "subtype": "会議費", "plan": [250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250], "result": [249, 249, 249, 249, 249, 249, 0, 0, 0, 0, 0, 0]}'
+python3 ./merp.py expense set '{"name": "出張費", "fiscal_year": 2024, "project": "プロジェクト1", "type": "II.事業費", "subtype": "旅費", "plan": [35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 35], "result": [20, 29, 33, 20, 0, 0, 0, 0, 0, 0, 0, 0]}'
 python3 ./merp.py expense set '{"name": "システム開発費", "fiscal_year": 2024, "project": "プロジェクト1", "type": "III.再委託・外注費", "subtype": "", "plan": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22000], "result": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}'
 
 python3 ./merp.py workflow add '{"name": "abc", "owner": "abcd", "flow": {"pos": 0, "flow": [{"action": "approval", "person_in_charge": "tf" }, {"action": "close"}]} , "type": "payment", "status": "run"}'
