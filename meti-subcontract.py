@@ -3,7 +3,7 @@ import work_payment
 import json
 import sys
 import common
-import people, assignment, wage, expense
+import people, assignment, wage, expense, project
 
 def calc_personnel_costs(project_dict):
     people_db = people.People() 
@@ -106,10 +106,13 @@ def render(js):
         print(i)
         
 def main():
-    with open(sys.argv[1], 'r') as f:
-        project_dict = json.load(f)
-        res = calc_all(project_dict)
-        render(res)
+    db = project.Project()
+    
+    where = json.loads(sys.argv[1])
+    project_dict = db.get(where)
+    
+    res = calc_all(project_dict)
+    render(res)
     
 if __name__ == '__main__':
     sys.exit(main())
