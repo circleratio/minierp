@@ -1,5 +1,5 @@
 all:
-	@echo do nothing.
+	mkdir -p base_data operation_data
 
 test: test-db test-meti
 
