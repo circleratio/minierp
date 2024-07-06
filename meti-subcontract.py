@@ -2,6 +2,7 @@
 import work_payment
 import json
 import sys
+import people, assignment, wage
 
 def calc(filename):
     personnel_costs = 0
@@ -74,9 +75,30 @@ def calc(filename):
     print(f'    その他諸経費: {expense_misc}')
     print(f'III.再委託・外注費: {outsource}')
     print(f'IV.一般管理費: {administrative_expenses}')
+
+def calc_personnel_costs(project_dict):
+    people_db = people.People() 
+    assignment_db = assignment.Assignment()
+    wage_db = wage.Wage()
+
+    total = 0
+    
+    l = assignment_db.getByProject(project_dict['name'], project_dict['fiscal_year'])
+    for p in l:
+        rates = p['assignment']
+        
+        where = {'name': p['name'], 'fiscal_year': p['fiscal_year']}
+        prices = wage_db.get(where)['wages'] 
+        total += sum([x * y for x, y in zip(rates, prices)])
+    return(total)
     
 def main():
-    calc(sys.argv[1])
+    with open(sys.argv[1], 'r') as f:
+        project_dict = json.load(f)
+        #print(project_dict)
+
+        pc = calc_personnel_costs(project_dict)
+        print(pc)
     
 if __name__ == '__main__':
     sys.exit(main())

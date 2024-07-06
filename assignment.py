@@ -2,7 +2,7 @@
 import sys
 import people
 
-class Project:
+class Assignment:
     def __init__(self):
         p = people.People()
         self.db = p.db
@@ -10,23 +10,23 @@ class Project:
     def set(self, data):
         where = {'name': data['name'],
                  'fiscal_year': data['fiscal_year'],
-                 'project': data['project']}
+                 'assignment': data['assignment']}
         item = self.get(where)
         if item == None:
-            print('Project.set: New data')
-            self.db.set('project', data)
+            print('Assignment.set: New data')
+            self.db.set('assignment', data)
             self.db.commit()
         else:
-            print('Project.set: Update: {}'.format(item['id']))
-            self.db.set('project', data, dataid=item['id'])
+            print('Assignment.set: Update: {}'.format(item['id']))
+            self.db.set('assignment', data, dataid=item['id'])
             self.db.commit()
         
     def get(self, args):
         where = {'name': args['name'],
                  'fiscal_year': args['fiscal_year'],
-                 'project': args['project']}
+                 'assignment': args['assignment']}
         
-        for row in self.db.get('project', where):
+        for row in self.db.get('assignment', where):
             return(row)
         return(None)
 
@@ -34,10 +34,18 @@ class Project:
         where = {'name': name,
                  'fiscal_year': year}
         l = []
-        for row in self.db.get('project', where):
+        for row in self.db.get('assignment', where):
             l.append(row)
         return(l)
         
+    def getByProject(self, project, year):
+        where = {'project': project,
+                 'fiscal_year': year}
+        l = []
+        for row in self.db.get('assignment', where):
+            l.append(row)
+        return(l)
+    
     def dump(self):
-        for row in self.db.get('project'):
+        for row in self.db.get('assignment'):
             print(row)

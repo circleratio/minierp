@@ -13,7 +13,7 @@ class People(Singleton):
         self.db = jsondb.JsonDB('base_data/people_and_organization.db')
         self.db.create_table('people')
         self.db.create_table('wage')
-        self.db.create_table('project')
+        self.db.create_table('assignment')
 
     def dump(self):
         for row in self.db.get('people'):

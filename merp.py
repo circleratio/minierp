@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import people, wage, project
+import people, wage, assignment
 import workflow
 import sys
 import logging
@@ -17,7 +17,7 @@ def main():
 
     func = {'people': cmd_people,
             'wage': cmd_wage,
-            'project': cmd_project,
+            'assignment': cmd_assignment,
             'workflow': cmd_workflow
             }
     
@@ -51,8 +51,8 @@ def cmd_wage(cmd, arg):
     else:
         print(f'Wage: wrong command: {cmd}')
         
-def cmd_project(cmd, arg):
-    db = project.Project()  
+def cmd_assignment(cmd, arg):
+    db = assignment.Assignment()  
     if cmd == 'get':
         db.get(arg)
     if cmd == 'getbyperson':

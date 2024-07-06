@@ -20,13 +20,10 @@ class Wage:
             self.db.commit()
         
     def get(self, args):
-        if 'name' in args:  
-            where = {'name': args['name']}
-        else:
-            return(None)
-        
+        where = {'name': args['name'], 'fiscal_year': args['fiscal_year']}
         for row in self.db.get('wage', where):
             return(row)
+        return(None)
         
     def dump(self):
         for row in self.db.get('wage'):
