@@ -23,7 +23,3 @@ python3 ./merp.py expense set '{"name": "出張費", "fiscal_year": 2024, "proje
 python3 ./merp.py expense set '{"name": "システム開発費", "fiscal_year": 2024, "project": "プロジェクト1", "type": "III.再委託・外注費", "subtype": "", "plan": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22000], "result": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}'
 
 python3 ./merp.py project set '{"name": "プロジェクト1", "一般管理費率": 0.1, "fiscal_year": 2024, "month_start": 4, "month_end": 3}'
-
-python3 ./merp.py workflow add '{"name": "abc", "owner": "abcd", "flow": {"pos": 0, "flow": [{"action": "approval", "person_in_charge": "tf" }, {"action": "close"}]} , "type": "payment", "status": "run"}'
-python3 ./merp.py workflow step_forward '{"id": 1, "arg": {"actor": "tf", "message": "I did it."}}'
-python3 ./merp.py workflow reject '{"id": 1, "arg": {"actor": "tf", "message": "I did it."}}'

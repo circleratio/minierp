@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-import work_payment
 import json
 import sys
 import common

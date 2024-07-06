@@ -18,7 +18,6 @@ def main():
             'wage': cmd_wage,
             'assignment': cmd_assignment,
             'expense': cmd_expense,
-            'workflow': cmd_workflow,
             'common': cmd_common,
             'project': cmd_project
             }
@@ -100,23 +99,5 @@ def cmd_assignment(cmd, arg):
     else:
         print(f'Wage: wrong command: {cmd}')
         
-def cmd_workflow(cmd, arg):
-    db = workflow.Workflow()
-    if cmd == 'list':
-        db.list()
-    elif cmd == 'add':
-        db.add(arg)
-    elif cmd == 'step_forward':
-        wf_id = arg['id']
-        wf_arg = arg['arg']
-        db.step_forward(wf_id, wf_arg)
-    elif cmd == 'reject':
-        wf_id = arg['id']
-        wf_arg = arg['arg']
-        db.reject(wf_id, wf_arg)
-        pass
-    else:
-        print(f'Workflow: wrong command: {cmd}')
-    
 if __name__ == '__main__':
     sys.exit(main())

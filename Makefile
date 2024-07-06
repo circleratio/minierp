@@ -1,8 +1,11 @@
-all: merp.py
-	merp.py
+all:
+	@echo do nothing.
 
-test: test.sh
+test:
 	bash test.sh
+
+test-meti:
+	python3 ./meti-subcontract.py '{"name": "プロジェクト1", "fiscal_year": 2024}' 
 
 clean:
 	(cd base_data; rm -f people_and_organization.db)
