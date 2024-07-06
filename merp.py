@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import people, wage
+import people, wage, project
 import workflow
 import sys
 import logging
@@ -8,29 +8,29 @@ import json
 def main():
     logging.basicConfig(filename="logs/merp.log")
 
-    db_people = people.People()  
-    db_wage = wage.Wage()  
-    db_workflow = workflow.Workflow()
-
     arg = sys.argv
     if len(arg) != 4:
         print('Usage: merp type cmd {args in json}')
         return(1)
 
     arg_json = json.loads(arg[3])
-        
-    if arg[1] == 'people':
-        cmd_people(db_people, arg[2], arg_json)
-    elif arg[1] == 'workflow':
-        cmd_workflow(db_workflow, arg[2], arg_json)
-    elif arg[1] == 'wage':
-        cmd_wage(db_wage, arg[2], arg_json)
+
+    func = {'people': cmd_people,
+            'wage': cmd_wage,
+            'project': cmd_project,
+            'workflow': cmd_workflow
+            }
+    
+    if arg[1] in func:
+        func[arg[1]](arg[2], arg_json)
     else:
-        print('Usage: merp type cmd {args in json format}')
+        print(f'Wrong command: {arg[1]}')
         return(1)
+    
     return(0)
 
-def cmd_people(db, cmd, arg):
+def cmd_people(cmd, arg):
+    db = people.People()  
     if cmd == 'get':
         print(db.get(arg['name']))
     elif cmd == 'set':
@@ -40,7 +40,8 @@ def cmd_people(db, cmd, arg):
     else:
         print(f'People: wrong command: {cmd}')
 
-def cmd_wage(db, cmd, arg):
+def cmd_wage(cmd, arg):
+    db = wage.Wage()  
     if cmd == 'get':
         db.get(arg)
     elif cmd == 'set':
@@ -50,7 +51,22 @@ def cmd_wage(db, cmd, arg):
     else:
         print(f'Wage: wrong command: {cmd}')
         
-def cmd_workflow(db, cmd, arg):
+def cmd_project(cmd, arg):
+    db = project.Project()  
+    if cmd == 'get':
+        db.get(arg)
+    if cmd == 'getbyperson':
+        l = db.getByPerson(arg['name'], arg['fiscal_year'])
+        print(l)
+    elif cmd == 'set':
+        db.set(arg)
+    elif cmd == 'dump':
+        db.dump()
+    else:
+        print(f'Wage: wrong command: {cmd}')
+        
+def cmd_workflow(cmd, arg):
+    db = workflow.Workflow()
     if cmd == 'list':
         db.list()
     elif cmd == 'add':
@@ -62,7 +78,7 @@ def cmd_workflow(db, cmd, arg):
     elif cmd == 'reject':
         wf_id = arg['id']
         wf_arg = arg['arg']
-        db.reject( wf_id, wf_arg)
+        db.reject(wf_id, wf_arg)
         pass
     else:
         print(f'Workflow: wrong command: {cmd}')
