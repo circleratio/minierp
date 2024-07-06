@@ -13,4 +13,5 @@ class DB(Singleton):
         self.db.create_table('people')
         self.db.create_table('wage')
         self.db.create_table('assignment')
+        self.db.create_table('expense')
         self.db.commit()

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import common
-import people, wage, assignment
+import people, wage, assignment, expense
 import workflow
 import sys
 import logging
@@ -19,6 +19,7 @@ def main():
     func = {'people': cmd_people,
             'wage': cmd_wage,
             'assignment': cmd_assignment,
+            'expense': cmd_expense,
             'workflow': cmd_workflow
             }
     
@@ -43,6 +44,17 @@ def cmd_people(cmd, arg):
 
 def cmd_wage(cmd, arg):
     db = wage.Wage()  
+    if cmd == 'get':
+        db.get(arg)
+    elif cmd == 'set':
+        db.set(arg)
+    elif cmd == 'dump':
+        db.dump()
+    else:
+        print(f'Wage: wrong command: {cmd}')
+        
+def cmd_expense(cmd, arg):
+    db = expense.Expense()  
     if cmd == 'get':
         db.get(arg)
     elif cmd == 'set':
