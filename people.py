@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 import sys
 import common
+from logging import getLogger
 
 class People:
     def __init__(self):
         self.db = common.DB().db
+        self.logger = getLogger(__name__)
 
     def dump(self):
         for row in self.db.get('people'):
@@ -16,7 +18,7 @@ class People:
             self.db.set('people', data)
             self.db.commit()
         else:
-            print('People.add: the user already exists: {} (id={})'.format(data['name'], item['id']))
+            self.logger.debug('add: the user already exists: {} (id={})'.format(data['name'], item['id']))
             self.db.set('people', data, dataid=item['id'])
             self.db.commit()
             

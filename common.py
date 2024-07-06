@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import jsondb
+from logging import getLogger, StreamHandler, DEBUG, basicConfig
 
 class Singleton(object):
     def __new__(cls, *args, **kargs):
@@ -9,7 +10,7 @@ class Singleton(object):
 
 class DB(Singleton):
     def __init__(self):
-        self.db = jsondb.JsonDB('base_data/people_and_organization.db')
+        self.db = jsondb.JsonDB('base_data/base.db')
         self.db.create_table('common')
         self.db.create_table('people')
         self.db.create_table('wage')
@@ -17,10 +18,13 @@ class DB(Singleton):
         self.db.create_table('project')
         self.db.create_table('expense')
         self.db.commit()
-
+        
+        basicConfig(filename="operation_data/merp.log", level=DEBUG)
+        
 class Common:
     def __init__(self):
         self.db = DB().db
+        self.logger = getLogger(__name__)
 
     def set(self, data):
         item = self.get('id')
@@ -28,7 +32,7 @@ class Common:
             self.db.set('common', data)
             self.db.commit()
         else:
-            print(f'Common.add: the common info already exists: id={item}')
+            self.logger.debug(f'add: the common info already exists: id={item}')
             self.db.set('common', data, dataid=item)
             self.db.commit()
             

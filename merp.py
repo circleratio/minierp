@@ -3,12 +3,10 @@ import common
 import people, wage, assignment, expense, project
 import workflow
 import sys
-import logging
 import json
+from logging import getLogger
 
 def main():
-    logging.basicConfig(filename="logs/merp.log")
-
     arg = sys.argv
     if len(arg) != 4:
         print('Usage: merp type cmd {args in json}')
