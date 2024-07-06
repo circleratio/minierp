@@ -1,19 +1,10 @@
 #!/usr/bin/python3
 import sys
-import jsondb
+import common
 
-class Singleton(object):
-    def __new__(cls, *args, **kargs):
-        if not hasattr(cls, "_instance"):
-            cls._instance = super(Singleton, cls).__new__(cls)
-        return cls._instance
-    
-class People(Singleton):
+class People:
     def __init__(self):
-        self.db = jsondb.JsonDB('base_data/people_and_organization.db')
-        self.db.create_table('people')
-        self.db.create_table('wage')
-        self.db.create_table('assignment')
+        self.db = common.DB().db
 
     def dump(self):
         for row in self.db.get('people'):
@@ -42,7 +33,8 @@ class People(Singleton):
         return(None)
     
 def main():
-    db_people = People()
+    db = People()
+    db.dump()
     
 if __name__ == '__main__':
     sys.exit(main())

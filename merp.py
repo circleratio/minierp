@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import common
 import people, wage, assignment
 import workflow
 import sys

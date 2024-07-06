@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 import sys
-import people
+import common
 
 class Assignment:
     def __init__(self):
-        p = people.People()
-        self.db = p.db
+        self.db = common.DB().db
 
     def set(self, data):
         where = {'name': data['name'],
