@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import common
 import people, wage, assignment, expense, project
-import workflow
 import sys
 import json
 from logging import getLogger
